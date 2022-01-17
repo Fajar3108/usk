@@ -9,8 +9,8 @@
     $my_transactions = Transaction::where('receiver_id', auth()->user()->id)->orWhere('sender_id', auth()->user()->id)->latest()->get();
 @endphp
 
-<main class="container mt-3">
-    <div class="row gap-1">
+<main class="container">
+    <div class="row gap-1 p-3">
         <div class="col-12 col-md-4 p-0 mb-3">
             <div class="card">
                 <div class="card-body">
@@ -42,10 +42,10 @@
             @endif
             <div class="row">
                 @foreach ($products as $product)
-                <div class="card mb-3 p-0" style="max-height: 200px">
-                    <div class="row g-0" style="max-height: 100%;">
-                        <div class="col-md-4" style="max-height: 100%;">
-                            <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded-start" alt="..." style="width: 100%; height: 100%; object-fit:cover;">
+                <div class="card mb-1 p-0">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded-start" alt="..." style="width: 100%; height: 200px; object-fit:cover;">
                         </div>
                         <div class="col-md-8">
                         <div class="card-body">
