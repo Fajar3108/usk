@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,11 +32,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['officer'])->group(function(){
         Route::post('topup-confirmation/{transaction:id}', [TransactionController::class, 'topup_confirmation'])->name('topup.confirmation');
+        Route::get('transactions/export', [TransactionController::class, 'export'])->name('transactions.export');
     });
 
     Route::middleware(['not_student'])->group(function(){
         Route::view('/dashboard', 'dashboard')->name('dashboard');
         Route::post('users', [UserController::class, 'store'])->name('users.store');
+        Route::post('transactions/{transaction:id}/deny', [TransactionController::class, 'deny'])->name('transactions.deny');
         Route::resource('transactions', TransactionController::class)->only('index');
     });
     Route::post('topup', [TransactionController::class, 'topup'])->name('topup');

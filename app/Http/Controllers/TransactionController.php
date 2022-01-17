@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TransactionsExport;
 use App\Helpers\ResponseHelper;
 use App\Models\{Product, Transaction, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -107,5 +109,28 @@ class TransactionController extends Controller
         ]);
 
         return back()->withSuccess('Transaction confirmed successfuly');
+    }
+
+    public function deny(Transaction $transaction)
+    {
+        $type = strtolower($transaction->type_name);
+        $role = strtolower(auth()->user()->role_name);
+
+        if ($type == 'purchase' && $role !== 'seller' && $role !== 'admin') abort(403);
+        else if ($type == 'top up' && $role !== 'officer' && $role !== 'admin') abort(403);
+
+        if (strtolower($transaction->status_name) !== 'pending') return back()->withError('This transaction has been completed');
+
+        $transaction->update([
+            'confirmed_by' => auth()->user()->id,
+            'status' => 2
+        ]);
+
+        return back()->withSuccess('Transaction denied successfuly');
+    }
+
+    public function export()
+    {
+        return Excel::download(new TransactionsExport(), 'transactions.xlsx');
     }
 }
