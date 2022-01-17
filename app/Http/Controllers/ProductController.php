@@ -28,7 +28,7 @@ class ProductController extends Controller
     {
         $lastId = Product::latest()->first()->id ?? 0;
         $image = ImageHelper::store($request->image, 'products');
-        $slug = Str::slug($request->name) . ($lastId + 1);
+        $slug = Str::slug($request->name) . '-' . ($lastId + 1);
 
         Product::create([
             'created_by' => auth()->user()->id,
@@ -59,6 +59,8 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return back();
     }
 }
