@@ -7,13 +7,14 @@ const login = async () => {
     const email = document.querySelector('#email').value;
     const role = document.querySelector('#role').value;
     const password = document.querySelector('#password').value;
+    const _token = document.getElementsByName('_token')[0].value;
 
-    await fetch('/api/users', {
+    await fetch('/users', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password, role })
+        body: JSON.stringify({ _token, name, email, password, role })
     })
     .then((res) => res.json())
     .then((resJson) => {
