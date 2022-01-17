@@ -17,7 +17,7 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'receiver_id');
     }
 
-    public function confirmed_by()
+    public function confirm_by()
     {
         return $this->belongsTo(User::class, 'confirmed_by');
     }
@@ -27,12 +27,12 @@ class Transaction extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function typeName()
+    public function getTypeNameAttribute()
     {
         return TransactionHelper::type($this->type);
     }
 
-    public function statusName()
+    public function getStatusNameAttribute()
     {
         return TransactionHelper::status($this->status);
     }

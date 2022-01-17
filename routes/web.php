@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
@@ -21,8 +20,10 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::resource('users', UserController::class)->only('index', 'destroy');
     Route::resource('products', ProductController::class)->except('show');
+    Route::post('topup-confirmation/{transaction:id}', [TransactionController::class, 'topup_confirmation'])->name('topup.confirmation');
+    Route::resource('transactions', TransactionController::class)->only('index');
 
     // API
     Route::post('users', [UserController::class, 'store'])->name('users.store');
-    Route::post('topup', [TransactionController::class, 'topup'])->name('api.topup');
+    Route::post('topup', [TransactionController::class, 'topup'])->name('topup');
 });

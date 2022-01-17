@@ -23,7 +23,7 @@ const topup = async () => {
             return;
         }
 
-        alert('Top Up Success');
+        alert('Top Up Success. Pay to mini bank clerk');
         document.location.href = document.location.href;
     })
     .catch((error) => console.log(error))

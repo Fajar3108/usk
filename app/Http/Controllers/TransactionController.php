@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Helpers\RoleHelper;
+use App\Helpers\TransactionHelper;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,13 @@ use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
+    public function index()
+    {
+        return view('transactions.index', [
+            'transactions' => Transaction::latest()->paginate(10),
+        ]);
+    }
+
     public function topup(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -23,9 +31,9 @@ class TransactionController extends Controller
 
         $status = 0;
 
-        if (strtolower(RoleHelper::getRole(auth()->user()->role)) !== 'student') $status = 1;
+        if (strtolower(auth()->user()->roleName) !== 'student') $status = 1;
 
-        if (strtolower(RoleHelper::getRole(auth()->user()->role)) == 'student') $receiver = auth()->user();
+        if (strtolower(auth()->user()->roleName) == 'student') $receiver = auth()->user();
         else $receiver = User::find($request->receiver_id);
 
         if (!$receiver) return ResponseHelper::buildError('Receiver not found', [], 404);
@@ -39,10 +47,26 @@ class TransactionController extends Controller
 
         if (strtolower($status) == 'success') {
             $receiver->update([
-                'amount' => $receiver->amout + $request->amount,
+                'amount' => $receiver->balance + $request->amount,
             ]);
         }
 
         return ResponseHelper::buildSuccess('Top Up Success', [], 200);
+    }
+
+    public function topup_confirmation(Transaction $transaction)
+    {
+        if (strtolower($transaction->statusName) !== 'pending') return back()->with('error', 'This transaction has been completed');
+
+        $transaction->update([
+            'confirmed_by' => auth()->user()->id,
+            'status' => 1
+        ]);
+
+        $transaction->receiver()->update([
+            'balance' => $transaction->receiver->balance + $transaction->amount,
+        ]);
+
+        return back()->with('success', 'Transaction confirmed successfuly');
     }
 }
