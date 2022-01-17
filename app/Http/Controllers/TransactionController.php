@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Models\{Product, Transaction, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
@@ -43,6 +44,7 @@ class TransactionController extends Controller
             'amount' => $request->amount,
             'type' => 1,
             'status' => $status,
+            'code' => Str::random(6),
         ]);
 
         if (strtolower($status) == 'success') {
@@ -83,6 +85,7 @@ class TransactionController extends Controller
             'product_id' => $product->id,
             'sender_id' => auth()->user()->id,
             'description' => $request->description,
+            'code' => Str::random(6),
         ]);
 
         return back();

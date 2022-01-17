@@ -10,7 +10,7 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sender_id', 'receiver_id', 'confirmed_by', 'product_id', 'amount', 'type', 'status', 'description'];
+    protected $fillable = ['code', 'sender_id', 'receiver_id', 'confirmed_by', 'product_id', 'amount', 'type', 'status', 'description'];
 
     public function receiver()
     {

@@ -17,6 +17,7 @@
             @endif
             <table class="table table-hover mt-3">
                 <tr>
+                    <th>Code</th>
                     <th>Type</th>
                     <th>Amount</th>
                     <th>Confirmed By</th>
@@ -25,6 +26,7 @@
                 </tr>
                 @foreach ($transactions as $transaction)
                 <tr>
+                    <td>{{ $transaction->code }}</td>
                     <td>{{ $transaction->typeName }}</td>
                     <td>{{ CurrencyHelper::rupiah($transaction->amount) }}</td>
                     <td>{{ $transaction->confirm_by->name ?? 'Unconfirmed' }}</td>
