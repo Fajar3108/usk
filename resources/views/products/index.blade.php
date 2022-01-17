@@ -12,7 +12,7 @@
                 <h2>Products</h2>
                 <a href="{{ route('products.create') }}" class="btn sm btn-primary">Create</a>
             </div>
-            <table class="table table-hover">
+            <table class="table table-hover mt-3">
                 <tr>
                     <th>Name</th>
                     <th>Price</th>
@@ -23,12 +23,12 @@
                 <tr>
                     <td>{{ $product->name }}</td>
                     <td>{{ CurrencyHelper::rupiah($product->price) }}</td>
-                    <td>{{ $product->description }}</td>
+                    <td><p class="limit-text m-0">{{ $product->description }}</p></td>
                     <td>
                         <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="m-0">
                             @csrf
                             @method('DELETE')
-                            <a href="{{ route('products.edit', $product->slug) }}" class="btn btn-outline-success btn-sm">Edit</a>
+                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-outline-success btn-sm">Edit</a>
                             <button class="btn btn-outline-danger btn-sm">Delete</button>
                         </form>
                     </td>

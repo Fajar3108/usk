@@ -19,5 +19,5 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/', 'home')->name('home');
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::resource('users', UserController::class)->only('index', 'destroy');
-    Route::resource('products', ProductController::class);
+    Route::resource('products', ProductController::class)->except('show');
 });

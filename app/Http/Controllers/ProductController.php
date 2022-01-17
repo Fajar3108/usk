@@ -26,6 +26,10 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
+        $request->validate([
+            'image' => ['required', 'image','max:2048'],
+        ]);
+
         $lastId = Product::latest()->first()->id ?? 0;
         $image = ImageHelper::store($request->image, 'products');
         $slug = Str::slug($request->name) . '-' . ($lastId + 1);
@@ -54,7 +58,13 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        //
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+        ]);
+
+        return redirect()->route('products.index');
     }
 
     public function destroy(Product $product)

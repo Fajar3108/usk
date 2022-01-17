@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="row col-12 col-md-8">
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">

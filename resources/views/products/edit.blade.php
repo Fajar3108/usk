@@ -9,7 +9,7 @@
         </div>
         <div class="col-12 col-md-8">
             <h2>Create New Product</h2>
-            <form action="{{ route('products.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 @include('products.partials.form')

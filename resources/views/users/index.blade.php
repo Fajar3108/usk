@@ -12,7 +12,7 @@
                 <h2>Users</h2>
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateUserModal">Create</button>
             </div>
-            <table class="table table-hover">
+            <table class="table table-hover mt-3">
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
