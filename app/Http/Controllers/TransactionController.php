@@ -11,9 +11,12 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        return view('transactions.index', [
-            'transactions' => Transaction::latest()->paginate(10),
-        ]);
+        $role = strtolower(auth()->user()->role_name);
+        if ($role == 'officer') $transactions = Transaction::where('type', 1)->latest()->paginate(10);
+        else if ($role == 'seller') $transactions = Transaction::where('type', 2)->latest()->paginate(10);
+        else $transactions = Transaction::latest()->paginate(10);
+
+        return view('transactions.index', compact('transactions'));
     }
 
     public function topup(Request $request)

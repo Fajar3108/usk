@@ -12,9 +12,9 @@
         @if ($role == 'admin' || $role == 'seller')
         <li class="list-group-item @if(request()->is('products')) {{ "bg-primary" }} @endif"><a href="{{ route('products.index') }}" class="@if(request()->is('products')) {{ "text-white" }} @endif">Products</a></li>
         @endif
-        @if ($role == 'admin' || $role == 'officer')
+
         <li class="list-group-item @if(request()->is('transactions')) {{ "bg-primary" }} @endif"><a href="{{ route('transactions.index') }}" class="@if(request()->is('transactions')) {{ "text-white" }} @endif">Transactions</a></li>
-        @endif
+
         <li class="list-group-item">
             <form action="{{ route('logout') }}" method="POST" class="m-0">
                 @csrf
