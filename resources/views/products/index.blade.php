@@ -10,7 +10,7 @@
         <div class="col-12 col-md-8">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Products</h2>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateUserModal">Create</button>
+                <a href="{{ route('products.create') }}" class="btn sm btn-primary">Create</a>
             </div>
             <table class="table table-hover">
                 <tr>
@@ -19,6 +19,21 @@
                     <th>Description</th>
                     <th>Action</th>
                 </tr>
+                @foreach ($products as $product)
+                <tr>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ CurrencyHelper::rupiah($product->price) }}</td>
+                    <td>{{ $product->description }}</td>
+                    <td>
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="m-0">
+                            @csrf
+                            @method('DELETE')
+                            <a href="{{ route('products.edit', $product->slug) }}" class="btn btn-outline-success btn-sm">Edit</a>
+                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
             </table>
         </div>
     </div>

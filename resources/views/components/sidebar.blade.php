@@ -1,5 +1,6 @@
 <div class="card">
     <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{ auth()->user()->name }}</li>
         <li class="list-group-item @if(request()->is('dashboard')) {{ "bg-primary" }} @endif"><a href="{{ route('dashboard') }}" class="@if(request()->is('dashboard')) {{ "text-white" }} @endif">Dashboard</a></li>
         <li class="list-group-item @if(request()->is('users')) {{ "bg-primary" }} @endif"><a href="{{ route('users.index') }}" class="@if(request()->is('users')) {{ "text-white" }} @endif">Users</a></li>
         <li class="list-group-item @if(request()->is('products')) {{ "bg-primary" }} @endif"><a href="{{ route('products.index') }}" class="@if(request()->is('products')) {{ "text-white" }} @endif">Products</a></li>

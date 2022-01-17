@@ -25,7 +25,7 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->roleName }}</td>
                     <td>
-                        <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="m-0">
                             @method('DELETE')
                             @csrf
                             <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>

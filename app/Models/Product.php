@@ -9,9 +9,9 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'price', 'image'];
+    protected $fillable = ['created_by', 'name', 'slug', 'description', 'price', 'image'];
 
-    public function user()
+    public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
