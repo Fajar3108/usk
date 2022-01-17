@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
-use App\Models\{Transaction, User};
+use App\Models\{Product, Transaction, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -53,7 +53,7 @@ class TransactionController extends Controller
 
     public function topup_confirmation(Transaction $transaction)
     {
-        if (strtolower($transaction->statusName) !== 'pending') return back()->with('error', 'This transaction has been completed');
+        if (strtolower($transaction->statusName) !== 'pending') return back()->withError('This transaction has been completed');
 
         $transaction->update([
             'confirmed_by' => auth()->user()->id,
@@ -64,11 +64,42 @@ class TransactionController extends Controller
             'balance' => $transaction->receiver->balance + $transaction->amount,
         ]);
 
-        return back()->with('success', 'Transaction confirmed successfuly');
+        return back()->withSuccess('Transaction confirmed successfuly');
     }
 
     public function purchase(Request $request)
     {
+        $product = Product::findOrFail($request->product_id);
 
+        if($product->price > auth()->user()->balance) return back()->withError('Balance is not enough');
+
+        Transaction::create([
+            'status' => 0,
+            'amount' => $product->price,
+            'type' => 2,
+            'product_id' => $product->id,
+            'sender_id' => auth()->user()->id,
+            'description' => $request->description,
+        ]);
+
+        return back();
+    }
+
+    public function purchase_confirmation(Transaction $transaction)
+    {
+        if (strtolower($transaction->status_name) !== 'pending') return back()->withError('This transaction has been completed');
+
+        if($transaction->amount > $transaction->sender->balance) return back()->withError('Balance is not enough');
+
+        $transaction->sender()->update([
+            'balance' => $transaction->sender->balance - $transaction->amount,
+        ]);
+
+        $transaction->update([
+            'confirmed_by' => auth()->user()->id,
+            'status' => 1
+        ]);
+
+        return back()->withSuccess('Transaction confirmed successfuly');
     }
 }

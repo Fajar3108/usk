@@ -12,6 +12,9 @@
                 <h2>Transactions</h2>
                 {{-- <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateUserModal">Top Up</button> --}}
             </div>
+            @if (Session::has('fail'))
+            <div class="alert alert-danger">{{ Session::get('fail') }}</div>
+            @endif
             <table class="table table-hover mt-3">
                 <tr>
                     <th>Type</th>
@@ -27,9 +30,15 @@
                     <td>{{ $transaction->confirm_by->name ?? 'Unconfirmed' }}</td>
                     <td>{{ $transaction->statusName }}</td>
                     <td>
-                        @if(strtolower($transaction->statusName) == 'pending')
-                            <form action="{{ route('topup.confirmation', $transaction->id) }}" method="POST">
-                                @csrf
+                        @if(strtolower($transaction->statusName) == 'pending' && $transaction->receiver_id)
+                        <form action="{{ route('topup.confirmation', $transaction->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-sm">Confirm</button>
+                        </form>
+                        @endif
+                        @if(strtolower($transaction->statusName) == 'pending' && $transaction->product_id)
+                        <form action="{{ route('purchase.confirmation', $transaction->id) }}" method="POST">
+                            @csrf
                             <button type="submit" class="btn btn-primary btn-sm">Confirm</button>
                         </form>
                         @endif

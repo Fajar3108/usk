@@ -19,8 +19,10 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/', 'home')->name('home');
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::resource('users', UserController::class)->only('index', 'destroy');
-    Route::resource('products', ProductController::class)->except('show');
+    Route::post('purchase', [TransactionController::class, 'purchase'])->name('purchase');
+    Route::post('purchase-confirmation/{transaction:id}', [TransactionController::class, 'purchase_confirmation'])->name('purchase.confirmation');
     Route::post('topup-confirmation/{transaction:id}', [TransactionController::class, 'topup_confirmation'])->name('topup.confirmation');
+    Route::resource('products', ProductController::class)->except('show');
     Route::resource('transactions', TransactionController::class)->only('index');
 
     // API

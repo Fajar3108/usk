@@ -10,11 +10,16 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['receiver_id', 'confirmed_by', 'product_id', 'amount', 'type', 'status', 'description'];
+    protected $fillable = ['sender_id', 'receiver_id', 'confirmed_by', 'product_id', 'amount', 'type', 'status', 'description'];
 
     public function receiver()
     {
         return $this->belongsTo(User::class, 'receiver_id');
+    }
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
     }
 
     public function confirm_by()

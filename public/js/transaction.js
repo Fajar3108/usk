@@ -29,4 +29,12 @@ const topup = async () => {
     .catch((error) => console.log(error))
 }
 
+const purchase = (product) => {
+    document.querySelector('#productId').value = product.id;
+    document.querySelector('#productImage').src = `${location.href}storage/${product.image}`;
+    document.querySelector('#productDescription').innerHTML = `${product.description}`;
+    document.querySelector('#productPrice').innerHTML = `Rp${product.price}`;
+    document.querySelector('#productName').innerHTML = `${product.name}`;
+}
+
 submitTopup.addEventListener('click', topup);

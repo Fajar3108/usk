@@ -15,7 +15,8 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('receiver_id')->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('receiver_id')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('sender_id')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('confirmed_by')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('product_id')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->integer('amount');

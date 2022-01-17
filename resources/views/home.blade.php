@@ -6,7 +6,7 @@
     use App\Models\{Product, Transaction};
 
     $products = Product::latest()->paginate(10);
-    $my_transactions = Transaction::where('receiver_id', auth()->user()->id)->latest()->get();
+    $my_transactions = Transaction::where('receiver_id', auth()->user()->id)->orWhere('sender_id', auth()->user()->id)->latest()->get();
 @endphp
 
 <main class="container mt-3">
@@ -30,13 +30,16 @@
                 @foreach ($my_transactions as $transaction)
                 <div class="col-12 m-0 mb-1">
                     <div class="alert alert-success m-0" role="alert">
-                        <strong>{{ $transaction->typeName }}!</strong> {{ CurrencyHelper::rupiah($transaction->amount) }}
+                        <strong>{{ $transaction->status_name }}!</strong> {{ $transaction->typeName }} {{ CurrencyHelper::rupiah($transaction->amount) }}
                     </div>
                 </div>
                 @endforeach
             </div>
         </div>
         <div class="col-12 col-md-7">
+            @if (Session::has('fail'))
+                <div class="alert alert-error">{{ Session::get('fail') }}</div>
+            @endif
             <div class="row">
                 @foreach ($products as $product)
                 <div class="card mb-3 p-0" style="max-height: 200px">
@@ -49,7 +52,7 @@
                             <h5 class="card-title">{{ $product->name }}</h5>
                             <h6 class="text-primary">{{ CurrencyHelper::rupiah($product->price) }}</h6>
                             <p class="card-text limit-text">{{ $product->description }}</p>
-                            <button class="btn btn-outline-primary">Beli</button>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#purchaseModal" id="purchaseBtn" onclick="purchase({{ $product }})">Buy</button>
                         </div>
                         </div>
                     </div>
@@ -61,6 +64,29 @@
 </main>
 
 @include('transactions.partials.topup-modal')
+
+<!-- Modal -->
+<div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="productPrice">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <img src="..." class="img-fluid" alt="..." id="productImage">
+            <h4 id="productName"></h4>
+            <p id="productDescription"></p>
+            <form action="{{ route('purchase') }}" method="POST">
+                @csrf
+                <input type="hidden" id="productId" name="product_id">
+                <textarea placeholder="Note (Optional)" name="description" class="form-control" rows="3"></textarea>
+                <button type="submit" class="btn btn-primary btn-block w-100">Purchase</button>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
 
 <script src="{{ asset('js/transaction.js') }}"></script>
 
