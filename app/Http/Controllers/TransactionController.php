@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
-use App\Helpers\RoleHelper;
-use App\Helpers\TransactionHelper;
-use App\Models\Transaction;
-use App\Models\User;
+use App\Models\{Transaction, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -68,5 +65,10 @@ class TransactionController extends Controller
         ]);
 
         return back()->with('success', 'Transaction confirmed successfuly');
+    }
+
+    public function purchase(Request $request)
+    {
+
     }
 }

@@ -2,8 +2,15 @@
 
 @section('content')
 
+@php
+    use App\Models\{Product, Transaction};
+
+    $products = Product::latest()->paginate(10);
+    $my_transactions = Transaction::where('receiver_id', auth()->user()->id)->latest()->get();
+@endphp
+
 <main class="container mt-3">
-    <div class="row">
+    <div class="row gap-1">
         <div class="col-12 col-md-4 p-0 mb-3">
             <div class="card">
                 <div class="card-body">
@@ -18,24 +25,36 @@
                     </form>
                 </div>
             </div>
+            <div class="row p-0 mt-3">
+                <h4>History</h4>
+                @foreach ($my_transactions as $transaction)
+                <div class="col-12 m-0 mb-1">
+                    <div class="alert alert-success m-0" role="alert">
+                        <strong>{{ $transaction->typeName }}!</strong> {{ CurrencyHelper::rupiah($transaction->amount) }}
+                    </div>
+                </div>
+                @endforeach
+            </div>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-7">
             <div class="row">
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F4.bp.blogspot.com%2F-ICsTm2-QHzo%2FV2qqP4237kI%2FAAAAAAAAJmA%2FbJFje_yxKDIv9eO3kk2kayMYYcDvQthWwCLcB%2Fs1600%2FCara%252BMembuat%252BAyam%252BBakar%252BBetutu%252BBali%252Bdan%252BResep.jpg&f=1&nofb=1" class="img-fluid rounded-start" alt="..." style="height: 100%; object-fit:cover;">
+                @foreach ($products as $product)
+                <div class="card mb-3 p-0" style="max-height: 200px">
+                    <div class="row g-0" style="max-height: 100%;">
+                        <div class="col-md-4" style="max-height: 100%;">
+                            <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded-start" alt="..." style="width: 100%; height: 100%; object-fit:cover;">
                         </div>
                         <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Nama Product</h5>
-                            <h6 class="text-primary">Rp10.000</h6>
-                            <p class="card-text limit-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam cumque hic doloribus quis facere commodi sed odit earum, iusto, omnis, voluptates quia dignissimos rerum deleniti sunt. Blanditiis veniam exercitationem maiores.</p>
+                            <h5 class="card-title">{{ $product->name }}</h5>
+                            <h6 class="text-primary">{{ CurrencyHelper::rupiah($product->price) }}</h6>
+                            <p class="card-text limit-text">{{ $product->description }}</p>
                             <button class="btn btn-outline-primary">Beli</button>
                         </div>
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
     </div>
