@@ -36,13 +36,22 @@
                     <td>{{ $transaction->statusName }}</td>
                     <td>
                         <div class="d-flex">
-                            @if(strtolower($transaction->statusName) == 'pending' && $transaction->receiver_id)
+                            {{-- Confirm Top Up --}}
+                            @if(strtolower($transaction->statusName) == 'pending' && strtolower($transaction->type_name) == 'top up')
                             <form action="{{ route('topup.confirmation', $transaction->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-primary btn-sm">Confirm</button>
                             </form>
                             @endif
-                            @if(strtolower($transaction->statusName) == 'pending' && $transaction->product_id)
+                            {{-- Confirm Withdraw --}}
+                            @if(strtolower($transaction->statusName) == 'pending' && strtolower($transaction->type_name) == 'withdraw')
+                            <form action="{{ route('withdraw.confirmation', $transaction->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-sm">Confirm</button>
+                            </form>
+                            @endif
+                            {{-- Confirm Purchase --}}
+                            @if(strtolower($transaction->statusName) == 'pending' && strtolower($transaction->type_name) == 'purchase')
                             <form action="{{ route('purchase.confirmation', $transaction->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-primary btn-sm">Confirm</button>

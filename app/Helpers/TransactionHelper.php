@@ -7,8 +7,9 @@ class TransactionHelper {
     {
         if ($id == 1) return 'Top Up';
         else if ($id == 2) return 'Purchase';
+        else if ($id == 3) return 'Withdraw';
 
-        return 'Undifined';
+        return 'Undefined';
     }
 
     public static function status($id)
@@ -17,6 +18,6 @@ class TransactionHelper {
         else if ($id == 1) return 'Success';
         else if ($id == 2) return 'Failed';
 
-        return 'Undifined';
+        return 'Undefined';
     }
 }

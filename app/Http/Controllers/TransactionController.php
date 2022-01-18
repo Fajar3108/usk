@@ -15,7 +15,7 @@ class TransactionController extends Controller
     public function index()
     {
         $role = strtolower(auth()->user()->role_name);
-        if ($role == 'officer') $transactions = Transaction::where('type', 1)->latest()->paginate(10);
+        if ($role == 'officer') $transactions = Transaction::where('type', '!=', 2)->latest()->paginate(10);
         else if ($role == 'seller') $transactions = Transaction::where('type', 2)->latest()->paginate(10);
         else $transactions = Transaction::latest()->paginate(10);
 

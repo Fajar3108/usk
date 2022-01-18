@@ -12,15 +12,19 @@
 <main class="container">
     <div class="row gap-1 p-3">
         <div class="col-12 col-md-4 p-0 mb-3">
-            <div class="card">
+            <div class="card p-2">
                 <div class="card-body">
                     <h5 class="card-title">{{ auth()->user()->name }}</h5>
                     <h6 class="card-subtitle text-muted">{{ auth()->user()->email }}</h6>
-
                     <h2 class="text-primary my-3">{{ CurrencyHelper::rupiah(auth()->user()->balance) }}</h2>
-                    <form action="{{ route('logout') }}" method="POST">
+
+                    <div class="row">
+                        <button role="button" class="btn btn-outline-primary mb-1" data-bs-toggle="modal" data-bs-target="#topupModal" onclick="event.preventDefault()">Top Up</button>
+                        <button role="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#withdrawModal" onclick="event.preventDefault()">Withdraw</button>
+                    </div>
+
+                    <form action="{{ route('logout') }}" method="POST" class="w-100 text-center mt-3">
                         @csrf
-                        <button role="button" class="card-link btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#topupModal" onclick="event.preventDefault()">Top Up</button>
                         <button class="card-link btn text-danger m-0">Logout</button>
                     </form>
                 </div>
@@ -64,6 +68,7 @@
 </main>
 
 @include('transactions.partials.topup-modal')
+@include('transactions.partials.withraw-modal')
 
 <!-- Modal -->
 <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
