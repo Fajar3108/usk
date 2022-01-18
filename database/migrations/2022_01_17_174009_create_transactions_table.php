@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('receiver_id')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('sender_id')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('confirmed_by')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->foreignId('product_id')->nullable()->constrained('users')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->integer('amount');
             $table->integer('type');
             $table->integer('status')->default(0);

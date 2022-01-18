@@ -85,6 +85,7 @@ class TransactionController extends Controller
             'amount' => $product->price,
             'type' => 2,
             'product_id' => $product->id,
+            'receiver_id' => $product->created_by,
             'sender_id' => auth()->user()->id,
             'description' => $request->description,
             'code' => Str::random(6),
@@ -101,6 +102,10 @@ class TransactionController extends Controller
 
         $transaction->sender()->update([
             'balance' => $transaction->sender->balance - $transaction->amount,
+        ]);
+
+        $transaction->receiver()->update([
+            'balance' => $transaction->receiver->balance + $transaction->amount,
         ]);
 
         $transaction->update([

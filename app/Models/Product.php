@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $fillable = ['created_by', 'name', 'slug', 'description', 'price', 'image'];
 
-    public function created_by()
+    public function seller()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
