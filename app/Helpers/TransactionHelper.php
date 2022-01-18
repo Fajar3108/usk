@@ -8,6 +8,7 @@ class TransactionHelper {
         if ($id == 1) return 'Top Up';
         else if ($id == 2) return 'Purchase';
         else if ($id == 3) return 'Withdraw';
+        else if ($id == 4) return 'Transfer';
 
         return 'Undefined';
     }

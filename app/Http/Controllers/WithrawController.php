@@ -16,7 +16,7 @@ class WithrawController extends Controller
             'amount' => ['required', 'numeric', 'min:500']
         ]);
 
-        if ($validator->fails()) return ResponseHelper::buildError('Top up Failed', $validator->errors()->first(), 400);
+        if ($validator->fails()) return ResponseHelper::buildError('Invalid Request', $validator->errors()->first(), 400);
 
         if ($request->amount % 500 !== 0) return ResponseHelper::buildError('Top up failed. amount must be a multiple of 500', [], 400);
 

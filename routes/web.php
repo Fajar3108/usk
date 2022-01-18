@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithrawController;
 use App\Models\Transaction;
@@ -45,5 +46,6 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::post('withdraw', [WithrawController::class, 'store'])->name('withdraw');
+    Route::post('transfer', [TransferController::class, 'store'])->name('transfer');
     Route::post('topup', [TransactionController::class, 'topup'])->name('topup');
 });

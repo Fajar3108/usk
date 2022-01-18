@@ -19,8 +19,9 @@
                     <h2 class="text-primary my-3">{{ CurrencyHelper::rupiah(auth()->user()->balance) }}</h2>
 
                     <div class="row">
-                        <button role="button" class="btn btn-outline-primary mb-1" data-bs-toggle="modal" data-bs-target="#topupModal" onclick="event.preventDefault()">Top Up</button>
-                        <button role="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#withdrawModal" onclick="event.preventDefault()">Withdraw</button>
+                        <button role="button" class="btn btn-outline-primary mb-1" data-bs-toggle="modal" data-bs-target="#topupModal">Top Up</button>
+                        <button role="button" class="btn btn-outline-info mb-1" data-bs-toggle="modal" data-bs-target="#transferModal">Transfer</button>
+                        <button role="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#withdrawModal">Withdraw</button>
                     </div>
 
                     <form action="{{ route('logout') }}" method="POST" class="w-100 text-center mt-3">

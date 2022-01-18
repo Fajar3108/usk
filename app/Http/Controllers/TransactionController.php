@@ -28,7 +28,7 @@ class TransactionController extends Controller
             'amount' => ['required', 'numeric', 'min:5000']
         ]);
 
-        if ($validator->fails()) return ResponseHelper::buildError('Top up Failed', $validator->errors()->first(), 400);
+        if ($validator->fails()) return ResponseHelper::buildError('Invalid Request', $validator->errors()->first(), 400);
 
         if ($request->amount % 5000 !== 0) return ResponseHelper::buildError('Top up failed. amount must be a multiple of 5000', [], 400);
 
@@ -78,7 +78,7 @@ class TransactionController extends Controller
     {
         $product = Product::findOrFail($request->product_id);
 
-        if($product->price > auth()->user()->balance) return back()->withError('Balance is not enough');
+        if($product->price > auth()->user()->balance) return back()->withError('Your balance is not sufficient');
 
         Transaction::create([
             'status' => 0,
@@ -97,7 +97,7 @@ class TransactionController extends Controller
     {
         if (strtolower($transaction->status_name) !== 'pending') return back()->withError('This transaction has been completed');
 
-        if($transaction->amount > $transaction->sender->balance) return back()->withError('Balance is not enough');
+        if($transaction->amount > $transaction->sender->balance) return back()->withError('Your balance is not sufficient');
 
         $transaction->sender()->update([
             'balance' => $transaction->sender->balance - $transaction->amount,
